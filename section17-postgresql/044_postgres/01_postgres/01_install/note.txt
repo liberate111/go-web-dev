@@ -1,0 +1,24 @@
+postgres
+
+https://www.postgresql.org/docs/13/app-psql.html
+install
+
+https://www.postgresql.org/download/
+mac
+
+Postgres.app is fine.
+log in
+
+psql
+
+or
+
+/Applications/Postgres.app/Contents/Versions/9.6/bin/psql -p5432
+
+list databases
+
+\l
+
+log out
+
+\q

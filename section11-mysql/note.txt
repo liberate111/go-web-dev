@@ -1,0 +1,42 @@
+============================
+
+
+
+    install mysql
+    install workbench
+    create mysql db on aws
+    connect workbench to rds mysql db
+    https://www.youtube.com/watch?v=k68Y-XYapEI
+
+==============================
+
+Using MySQL
+
+    Install MySQL
+
+    Download MySQL Community Server
+
+    We will need a MySQL driver
+
+    go get github.com/go-sql-driver/mysql
+    read the documentation
+    see all SQL drivers
+    Astaxie's book
+
+    Include the driver in your imports
+
+    _ "github.com/go-sql-driver/mysql"
+    Read the documentation
+
+    Determine the Data Source Name
+
+    user:password@tcp(localhost:5555)/dbname?charset=utf8
+    Read the documentation
+
+    Open a connection
+
+    db, err := sql.Open("mysql", "user:password@tcp(localhost:5555)/dbname?charset=utf8")
+
+package sql
+
+==================================

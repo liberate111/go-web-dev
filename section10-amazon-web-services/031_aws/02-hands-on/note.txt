@@ -1,0 +1,85 @@
+08_expire-session get it running on AWS.
+
+[Unit]
+Description=Go Server
+
+[Service]
+ExecStart=/home/<username>/<exepath>
+WorkingDirectory=/home/<username>/<working-dir>
+User=root
+Group=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+====================================================
+
+Deploying our session example
+
+    change your port number from 8080 to 80
+
+    create your binary
+
+    GOOS=linux GOARCH=amd64 go build -o [some-name]
+
+    SSH into your server
+
+    ssh -i /path/to/[your].pem ubuntu@[public-DNS]:
+
+    create directories to hold your code
+
+    for example, "wildwest" & "wildwest/templates"
+
+    copy binary to the server
+
+    copy your "templates" to the server
+
+    scp -i /path/to/[your].pem templates/* ubuntu@[public-DNS]:/home/ubuntu/templates
+
+    chmod permissions on your binary
+
+    Run your code
+
+    sudo ./[some-name]
+    check it in a browser at [public-IP]
+
+Persisting your application
+
+To run our application after the terminal session has ended, we must do the following:
+
+    Create a configuration file - sudo nano /etc/systemd/system/<filename>.service
+
+[Unit]
+Description=Go Server
+
+[Service]
+ExecStart=/home/<username>/<path-to-exe>/<exe>
+WorkingDirectory=/home/<username>/<exe-working-dir>
+User=root
+Group=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+    Add the service to systemd. - sudo systemctl enable <filename>.service
+    Activate the service. - sudo systemctl start <filename>.service
+    Check if systemd started it. - sudo systemctl status <filename>.service
+    Stop systemd if so desired. - sudo systemctl stop <filename>.service
+
+FOR EXAMPLE
+
+[Unit]
+Description=Go Server
+
+[Service]
+ExecStart=/home/ubuntu/cowboy
+WorkingDirectory=/home/ubuntu
+User=root
+Group=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

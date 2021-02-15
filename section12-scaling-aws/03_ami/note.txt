@@ -1,0 +1,89 @@
+Create an AMI (Amazon Machine Image)
+
+    EC2 / Instances / right-click instance / create image
+
+    image name: web-architecture-2019-10-31
+    description: web server 2019 October 31
+    no reboot: unchecked
+        allowing your instance to reboot gives a better image
+
+    create image
+
+Launch a new instance of your AMI in a new availability zone (AZ)
+
+    what AZ is your current instance running in?
+
+    EC2 / instances / look at the availability zone and make note of it
+
+    launch a new instance from your AMI
+
+    EC2 / AMIs / right click / launch / next: configure
+
+    subnet: <choose a different AZ> / next: storage / next
+    tag
+
+    value: web-server-0002
+
+    security group
+
+    choose the "web-tier" security group we created
+
+    launch
+
+    specify "key pair" we want the instance to use
+
+    launch instance
+
+Add new EC2 instance to load balancer's target group
+
+    add the new instance to the target group
+    enter load balancer DNS into a browser to see your load balancer in action
+
+    refresh your browser to see the switching between web-servers-sg
+
+Create auto scaling
+
+Auto Scaling helps you maintain application availability and allows you to scale your Amazon EC2 capacity up or down automatically according to conditions you define. You can use Auto Scaling to help ensure that you are running your desired number of Amazon EC2 instances. Auto Scaling can also automatically increase the number of Amazon EC2 instances during demand spikes to maintain performance and decrease capacity during lulls to reduce costs. Auto Scaling is well suited both to applications that have stable demand patterns or that experience hourly, daily, or weekly variability in usage.
+Configure auto scaling
+
+    EC2 / autoscaling / launch configuration
+    create auto scaling group / create launch configuration
+    My AMIs / choose your AMI
+
+    my image name was "web-architecture-2019-10-31"
+    next / next
+
+    configure details
+
+    name: auto-scale-config-2019-10-31
+    next / next
+
+    configure security group
+
+    select an existing security group / select the "web-servers-sg" security group
+    next / next / create launch configuration
+    choose an existing key pair / create launch configuration
+
+Create auto scaling group
+
+    Configure auto scaling group
+
+    name: auto-scale-group-2019-10-31
+    group size: this is the minimum number of instances we'll always be running
+    network: default vpc
+    subnet: choose the availability zones (AZs) into which you've launched instances
+    advanced details
+        load balancing: check "receive traffic from elastic load balancer"
+        select your load balancer
+        health check: ELB (this is what we set up)
+
+    configure scaling policies
+
+    keep group at initial size
+
+    configure tags
+        value: web-server-auto-scaled
+    create auto scaling group
+    Scaling policies
+
+    this is where we'd add policies to say when we scale up / scale down
